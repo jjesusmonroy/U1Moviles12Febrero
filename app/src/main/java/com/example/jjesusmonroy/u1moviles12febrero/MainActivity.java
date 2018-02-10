@@ -2,6 +2,7 @@ package com.example.jjesusmonroy.u1moviles12febrero;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -13,8 +14,6 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
     TextView progress;
     ListView listview;
-    ArrayList<String>contenido = new ArrayList<String>();
-    ArrayAdapter<String>adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         this.seekBar=findViewById(R.id.seekbar);
         this.progress=findViewById(R.id.progress);
         this.listview=findViewById(R.id.listview);
-        adaptador=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,contenido);
-        listview.setAdapter(adaptador);
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -33,13 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 int val = (i * (seekBar.getWidth() - 2 * seekBar.getThumbOffset())) / seekBar.getMax();
                 progress.setText("" + i);
                 progress.setX(seekBar.getX() + val + seekBar.getThumbOffset() / 2);
-                contenido = new ArrayList<>();
-
-                for(int j=1;j<31;j++){
-                    contenido.add(i+"x"+j+" = "+i*j);
-                }
-                adaptador.notifyDataSetChanged();
-
+                population(i,null);
             }
 
             @Override
@@ -52,5 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void population(int a,View v){
+        ArrayList<String> arreglo = new ArrayList<String>();
+        for(int i=1;i<31;i++){
+            arreglo.add(a+"x"+i+" = "+a*i);
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arreglo);
+        listview.setAdapter(arrayAdapter);
     }
 }
